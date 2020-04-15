@@ -13,7 +13,7 @@ We have added codes for two of models that we tested:
 
 ## Guide to run the code
 
-1. The data for the subjects resides in the `data` directory. You can create subdir for the arrangement and the dataset.npy file as `data/arrangement/dataset.npz`. We simply used the processed data from [here](https://github.com/arturjordao/WearableSensorData/tree/master/data) and put it in the data folder. For example: 'data/LOTO/MHEALTH.npz' file depicts the leave one trial out (LOTO) for the MHEALTH dataset. 
+1. The data for the subjects resides in the `data` directory. You can create subdir for the arrangement and the dataset.npy file as `data/arrangement/dataset.npz`. We used the processed data from [here](https://github.com/arturjordao/WearableSensorData/tree/master/data) and put it in the data folder. For example: 'data/LOTO/MHEALTH.npz' file depicts the leave one trial out (LOTO) for the MHEALTH dataset. 
 
 2. The codes reside in the  `codes` folder. 
 * `codes/model_baseline`: This folder contains the Python code for training a baseline model containing CNN and RNN layers. You can run the code by running the following command:
