@@ -1,4 +1,4 @@
-# Encoding human activity by considering salient sensors and time points. 
+# Deep ConvLSTM with self-attention for human activity decoding using wearables.
 In this git repository we implement the proposed novel architecture for encoding human activity data for body sensors. The proposed model encodes the sensor data in both the spatial domain (whereby it selects important sensors) and the time domain (whereby it selects important time points). 
 
 ![proposed Architecture](https://github.com/isukrit/encodingHumanActivity/blob/master/sensors_architecture.PNG)
