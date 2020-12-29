@@ -1,6 +1,9 @@
 # Deep ConvLSTM with self-attention for human activity decoding using wearables.
 In this git repository we implement the proposed novel architecture for encoding human activity data for body sensors. The proposed model encodes the sensor data in both the spatial domain (whereby it selects important sensors) and the time domain (whereby it selects important time points). 
 
+If you're using our code, please cite our paper (available on [ArXiV](https://arxiv.org/abs/2005.00698)):
+[S. P. Singh, M. K. Sharma, A. Lay-Ekuakille, D. Gangwar and S. Gupta, "Deep ConvLSTM with self-attention for human activity decoding using wearable sensors," in IEEE Sensors Journal, doi: 10.1109/JSEN.2020.3045135.](https://ieeexplore.ieee.org/document/9296308)
+
 ![proposed Architecture](https://github.com/isukrit/encodingHumanActivity/blob/master/sensors_architecture.PNG)
 
 We have added codes for two of models that we tested:
