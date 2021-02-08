@@ -7,8 +7,19 @@ import os
 import random
 import numpy as np
 import tensorflow as tf
-tf.set_random_seed(0)
-session_conf = tf.ConfigProto(intra_op_parallelism_threads=1, inter_op_parallelism_threads=1)
+
+# tf.set_random_seed(0)
+## modification
+tf.random.set_seed(0) ## For tf-2.1
+## modification
+
+# session_conf = tf.ConfigProto(intra_op_parallelism_threads=1, inter_op_parallelism_threads=1)
+##modification
+## Allowing growth will help removing junction while on a remote server.
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
+config.log_device_placement = True  # to log device placement (on which device the operation ran)
+## modification
 
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.models import Sequential, Model
@@ -60,8 +71,12 @@ def model(x_train, num_labels, LSTM_units, dropout, num_conv_filters, batch_size
 os.environ["CUDA_DEVICE_ORDER"]= "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"]= '1'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-sess = tf.Session(graph=tf.get_default_graph(), config=session_conf)
-K.set_session(sess)
+
+# sess = tf.Session(graph=tf.get_default_graph(), config=session_conf)
+# K.set_session(sess)
+##Updating for tf-2.1
+sess = tf.compat.v1.Session(graph=tf.compat.v1.get_default_graph(), config=config)
+tf.compat.v1.keras.backend.set_session(sess)
 
 EPOCH = 10
 BATCH_SIZE = 16
@@ -138,7 +153,10 @@ if __name__ == '__main__':
             rnn_model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
             history = rnn_model.fit(X_train_, y_train_one_hot, epochs=EPOCH, batch_size=BATCH_SIZE, verbose=1, callbacks=callbacks, validation_data=(X_test_, y_test_one_hot))
-
+	    ##Need to save weights using this:
+	    rnn_model.save_weights('my_model_weights.h5')
+	    ## Since conventional code didnt work for me.
+	
             early_stopping_epoch = callbacks[1].stopped_epoch - PATIENCE + 1 
             print('Early stopping epoch: ' + str(early_stopping_epoch))
             early_stopping_epoch_list.append(early_stopping_epoch)
@@ -148,7 +166,9 @@ if __name__ == '__main__':
 
             # Evaluate model and predict data on TEST 
             print("******Evaluating TEST set*********")
-            rnn_model.load_weights(model_filename)
+	    ## Loading weights:
+            rnn_model.load_weights('my_model_weights.h5')
+	    
             y_test_predict = rnn_model.predict(X_test_, batch_size = BATCH_SIZE)
             y_test_predict = np.array(y_test_predict)
             y_test_predict = np.argmax(y_test_predict, axis=1)
